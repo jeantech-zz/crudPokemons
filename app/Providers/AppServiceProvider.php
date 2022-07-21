@@ -6,11 +6,6 @@ use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
-    /**
-     * Register any application services.
-     *
-     * @return void
-     */
     public function register():void
     {
     }
@@ -19,5 +14,6 @@ class AppServiceProvider extends ServiceProvider
     public function boot():void
     {
         $this->app->bind(GatewayContract::class, PokemonGateway::class);
+
     }
 }

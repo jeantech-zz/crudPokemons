@@ -10,9 +10,8 @@ class CreateCharactersTable extends Migration
     {
         Schema::create('characters', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('character_id')->constrained('characters');
-            $table->string('is_main_series',1000);
-            $table->string('effect_changes',1000);
+            $table->string('name',100);
+            $table->string('url',1000);
             $table->timestamps();
         });
     }

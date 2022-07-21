@@ -10,6 +10,9 @@ class CreateAbilitiesTable extends Migration
     {
         Schema::create('abilities', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('character_id')->constrained('characters');
+            $table->string('is_main_series',1000);
+            $table->string('effect_changes',1000);
             $table->timestamps();
         });
     }
