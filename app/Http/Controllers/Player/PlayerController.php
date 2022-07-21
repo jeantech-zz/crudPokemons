@@ -9,8 +9,8 @@ use App\Models\Player;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PlayerRequest;
 use App\Http\Requests\PlayerUpdateRequest;
-use App\Repositories\Character\ColeccionsCharacterRepositories;
-use App\Repositories\Player\ColeccionsPlayerRepositories;
+use App\Repositorie\Character\ColeccionsCharacterRepositories;
+use App\Repositorie\Players\ColeccionsPlayerRepositories;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 

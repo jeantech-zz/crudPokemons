@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repositories\Player;
+namespace App\Repositorie\Players;
 
 interface PlayerRepositories
 {
