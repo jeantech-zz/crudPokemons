@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Player;
 
+use App\Actions\Player\DeletePlayerActions;
 use App\Models\Player;
 use App\Http\Controllers\Controller;
 use App\Repositories\Player\ColeccionsPlayerRepositories;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -57,12 +59,6 @@ class PlayerController extends Controller
             ->with('success', 'Player created successfully.');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
        $player = $this->coleccionsPlayer->playerId($id);
@@ -100,14 +96,9 @@ class PlayerController extends Controller
             ->with('success', 'Player updated successfully');
     }
 
-    /**
-     * @param int $id
-     * @return \Illuminate\Http\RedirectResponse
-     * @throws \Exception
-     */
-    public function destroy($id)
+    public function destroy($id):RedirectResponse
     {
-        $player = Player::find($id)->delete();
+        DeletePlayerActions::execute($id);
 
         return redirect()->route('players.index')
             ->with('success', 'Player deleted successfully');

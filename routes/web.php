@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Player\PlayerController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
