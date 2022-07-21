@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repositories\Character;
+namespace App\Repositorie\Character;
 
 interface CharacterRepositories
 {
