@@ -25,4 +25,4 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::middleware('auth')->group( callback: function () {
     Route::resource('players', PlayerController::class);
-}
+});
