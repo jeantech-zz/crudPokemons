@@ -1,9 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Player;
 
 use App\Models\Player;
+use App\Http\Controllers\Controller;
+use App\Repositories\Player\ColeccionsPlayerRepositories;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 /**
  * Class PlayerController
@@ -11,14 +15,16 @@ use Illuminate\Http\Request;
  */
 class PlayerController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    private ColeccionsPlayerRepositories $coleccionsPlayer;
+
+    public function __construct()
+    {
+        $this->coleccionsPlayer = new ColeccionsPlayerRepositories;
+    }
+
     public function index()
     {
-        $players = Player::paginate();
+        $players =  $this->coleccionsPlayer->listPlayerCharacterDetail();
 
         return view('player.index', compact('players'))
             ->with('i', (request()->input('page', 1) - 1) * $players->perPage());
@@ -59,7 +65,7 @@ class PlayerController extends Controller
      */
     public function show($id)
     {
-        $player = Player::find($id);
+       $player = $this->coleccionsPlayer->playerId($id);
 
         return view('player.show', compact('player'));
     }

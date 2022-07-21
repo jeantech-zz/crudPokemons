@@ -35,7 +35,7 @@
                                 <thead class="thead">
                                     <tr>
                                         <th>No</th>
-                                        
+
 										<th>Name</th>
 										<th>Character Id</th>
 
@@ -46,9 +46,9 @@
                                     @foreach ($players as $player)
                                         <tr>
                                             <td>{{ ++$i }}</td>
-                                            
+
 											<td>{{ $player->name }}</td>
-											<td>{{ $player->character_id }}</td>
+											<td>{{ $player->characters_name }}</td>
 
                                             <td>
                                                 <form action="{{ route('players.destroy',$player->id) }}" method="POST">

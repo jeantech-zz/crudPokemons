@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\PlayerController;
+use App\Http\Controllers\Player\PlayerController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,4 +22,4 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::resource('players', PlayerController::class)->only(['index','create','store','edit','update']);
+Route::resource('players', PlayerController::class);
