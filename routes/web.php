@@ -23,4 +23,6 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::resource('players', PlayerController::class);
+Route::middleware('auth')->group( callback: function () {
+    Route::resource('players', PlayerController::class);
+}
