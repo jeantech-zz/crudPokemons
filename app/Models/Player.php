@@ -19,12 +19,6 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Player extends Model
 {
-    
-    static $rules = [
-		'name' => 'required',
-		'character_id' => 'required',
-    ];
-
     protected $perPage = 20;
 
     /**
@@ -32,7 +26,7 @@ class Player extends Model
      *
      * @var array
      */
-    protected $fillable = ['name','character_id'];
+    protected $fillable = ['id','name','character_id'];
 
 
     /**
@@ -42,6 +36,6 @@ class Player extends Model
     {
         return $this->hasOne('App\Models\Character', 'id', 'character_id');
     }
-    
+
 
 }

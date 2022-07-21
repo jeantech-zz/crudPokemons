@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers\Player;
 
+use App\Actions\Player\CreatePlayerActions;
 use App\Actions\Player\DeletePlayerActions;
+use App\Actions\Player\UpdatePlayerActions;
 use App\Models\Player;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\PlayerRequest;
+use App\Http\Requests\PlayerUpdateRequest;
+use App\Repositories\Character\ColeccionsCharacterRepositories;
 use App\Repositories\Player\ColeccionsPlayerRepositories;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 
 /**
  * Class PlayerController
@@ -18,10 +21,12 @@ use Illuminate\Http\Response;
 class PlayerController extends Controller
 {
     private ColeccionsPlayerRepositories $coleccionsPlayer;
+    private ColeccionsCharacterRepositories $coleccionsCharacter;
 
     public function __construct()
     {
         $this->coleccionsPlayer = new ColeccionsPlayerRepositories;
+        $this->coleccionsCharacter = new ColeccionsCharacterRepositories;
     }
 
     public function index()
@@ -32,28 +37,17 @@ class PlayerController extends Controller
             ->with('i', (request()->input('page', 1) - 1) * $players->perPage());
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         $player = new Player();
-        return view('player.create', compact('player'));
+        $characters = $this->coleccionsCharacter->listCharacter();
+        return view('player.create', compact('player','characters' ));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store(PlayerRequest $request)
     {
-        request()->validate(Player::$rules);
 
-        $player = Player::create($request->all());
+        CreatePlayerActions::execute($request->all());
 
         return redirect()->route('players.index')
             ->with('success', 'Player created successfully.');
@@ -66,31 +60,17 @@ class PlayerController extends Controller
         return view('player.show', compact('player'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
-        $player = Player::find($id);
+        $player = $this->coleccionsPlayer->playerId($id);
+        $characters = $this->coleccionsCharacter->listCharacter();
 
-        return view('player.edit', compact('player'));
+        return view('player.edit', compact('player','characters'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @param  Player $player
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Player $player)
     {
-        request()->validate(Player::$rules);
-
-        $player->update($request->all());
+        UpdatePlayerActions::execute($request->all());
 
         return redirect()->route('players.index')
             ->with('success', 'Player updated successfully');
@@ -103,4 +83,5 @@ class PlayerController extends Controller
         return redirect()->route('players.index')
             ->with('success', 'Player deleted successfully');
     }
+
 }
