@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Player;
 use Illuminate\Http\Request;
 
+/**
+ * Class PlayerController
+ * @package App\Http\Controllers
+ */
 class PlayerController extends Controller
 {
     /**
@@ -14,7 +18,10 @@ class PlayerController extends Controller
      */
     public function index()
     {
-        //
+        $players = Player::paginate();
+
+        return view('player.index', compact('players'))
+            ->with('i', (request()->input('page', 1) - 1) * $players->perPage());
     }
 
     /**
@@ -24,62 +31,79 @@ class PlayerController extends Controller
      */
     public function create()
     {
-        //
+        $player = new Player();
+        return view('player.create', compact('player'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        //
+        request()->validate(Player::$rules);
+
+        $player = Player::create($request->all());
+
+        return redirect()->route('players.index')
+            ->with('success', 'Player created successfully.');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Player  $player
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Player $player)
+    public function show($id)
     {
-        //
+        $player = Player::find($id);
+
+        return view('player.show', compact('player'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Player  $player
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Player $player)
+    public function edit($id)
     {
-        //
+        $player = Player::find($id);
+
+        return view('player.edit', compact('player'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Player  $player
+     * @param  \Illuminate\Http\Request $request
+     * @param  Player $player
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Player $player)
     {
-        //
+        request()->validate(Player::$rules);
+
+        $player->update($request->all());
+
+        return redirect()->route('players.index')
+            ->with('success', 'Player updated successfully');
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Player  $player
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
      */
-    public function destroy(Player $player)
+    public function destroy($id)
     {
-        //
+        $player = Player::find($id)->delete();
+
+        return redirect()->route('players.index')
+            ->with('success', 'Player deleted successfully');
     }
 }
