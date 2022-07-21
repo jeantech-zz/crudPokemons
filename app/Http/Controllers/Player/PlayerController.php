@@ -68,7 +68,7 @@ class PlayerController extends Controller
         return view('player.edit', compact('player','characters'));
     }
 
-    public function update(Request $request, Player $player)
+    public function update(PlayerUpdateRequest $request, Player $player)
     {
         UpdatePlayerActions::execute($request->all());
 
